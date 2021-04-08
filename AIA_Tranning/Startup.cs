@@ -1,5 +1,6 @@
 using AIA_Tranning.Contracts;
 using AIA_Tranning.Data;
+using AIA_Tranning.Mappings;
 using AIA_Tranning.Reponsitory;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -33,6 +34,7 @@ namespace AIA_Tranning
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
             services.AddRepository();
+            services.AddAutoMapper(typeof(Maps));
             services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
             services.AddControllersWithViews();

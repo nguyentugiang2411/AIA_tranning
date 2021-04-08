@@ -11,16 +11,23 @@ namespace AIA_Tranning.Reponsitory
     public class UnitOfWork : IUnitOfWork
     {
         private readonly ApplicationDbContext _dbContext;
-        public UnitOfWork(ApplicationDbContext dbContext)
-        {
-            _dbContext = dbContext;
-        }
 
         public ILeaveAllocationRepository leaveAllocations { get; }
 
         public ILeaveHistoryRepository leaveHistories { get; }
 
         public ILeaveTypeRepository leaveTypes { get; }
+
+        public UnitOfWork(ApplicationDbContext dbContext,
+            ILeaveAllocationRepository leaveAllocationRepository,
+            ILeaveHistoryRepository leaveHistoryRepository,
+            ILeaveTypeRepository leaveTypeRepository)
+        {
+            _dbContext = dbContext;
+            leaveAllocations = leaveAllocationRepository;
+            leaveHistories = leaveHistoryRepository;
+            leaveTypes = leaveTypeRepository;
+        }
 
         public bool save()
         {
