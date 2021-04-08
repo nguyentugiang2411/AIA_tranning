@@ -13,7 +13,6 @@ namespace AIA_Tranning.Data
         {
         }
         
-
         public DbSet<Employee> Employees { get; set; }
         public DbSet<LeaveAllocation> LeaveAllocations { get; set; }
         public DbSet<LeaveHistory> LeaveHistories { get; set; }

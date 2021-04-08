@@ -6,17 +6,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace AIA_Tranning.UnitOfWork
+namespace AIA_Tranning.Reponsitory
 {
     public class UnitOfWork : IUnitOfWork
     {
-
-        private readonly DbContext _dbContext;
-        public UnitOfWork(DbContext dbContext,
-            ILeaveAllocationRepository leaveAllocations,
-            ILeaveHistoryRepository leaveHistories,
-            ILeaveTypeRepository leaveTypes)
+        private readonly ApplicationDbContext _dbContext;
+        public UnitOfWork(ApplicationDbContext dbContext)
         {
+            _dbContext = dbContext;
         }
 
         public ILeaveAllocationRepository leaveAllocations { get; }
@@ -25,9 +22,9 @@ namespace AIA_Tranning.UnitOfWork
 
         public ILeaveTypeRepository leaveTypes { get; }
 
-        public int Complete()
+        public bool save()
         {
-            return _dbContext.SaveChanges();
+            return _dbContext.SaveChanges() > 0;
         }
 
         public void Dispose()

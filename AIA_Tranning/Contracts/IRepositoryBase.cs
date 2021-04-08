@@ -13,5 +13,6 @@ namespace AIA_Tranning.Contracts
         bool update(T entity);
         bool delete(T entity);
         bool save();
+        bool isExist(int id);
     }
 }

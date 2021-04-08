@@ -9,24 +9,32 @@ namespace AIA_Tranning.Reponsitory
 {
     public class LeaveTypeRepository : ILeaveTypeRepository
     {
+        private readonly ApplicationDbContext _dbContext;
+        public LeaveTypeRepository(ApplicationDbContext dbContext)
+        {
+            _dbContext = dbContext;
+        }
+
         public bool create(LeaveType entity)
         {
-            throw new NotImplementedException();
+            _dbContext.LeaveTypes.Add(entity);
+            return save();
         }
 
         public bool delete(LeaveType entity)
         {
-            throw new NotImplementedException();
+            _dbContext.LeaveTypes.Remove(entity);
+            return save();
         }
 
         public ICollection<LeaveType> findAll()
         {
-            throw new NotImplementedException();
+            return _dbContext.LeaveTypes.ToList();
         }
 
         public LeaveType findById(int i)
         {
-            throw new NotImplementedException();
+            return _dbContext.LeaveTypes.Find(i);
         }
 
         public ICollection<LeaveType> GetEmployeesByLeaveType(int id)
@@ -36,12 +44,18 @@ namespace AIA_Tranning.Reponsitory
 
         public bool save()
         {
-            throw new NotImplementedException();
+            return _dbContext.SaveChanges() > 0;
         }
 
         public bool update(LeaveType entity)
         {
-            throw new NotImplementedException();
+            _dbContext.LeaveTypes.Update(entity);
+            return save();
+        }
+
+        public bool isExist(int id)
+        {
+            return _dbContext.LeaveTypes.Any(el => el.Id == id);
         }
     }
 }

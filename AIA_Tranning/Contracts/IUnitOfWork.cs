@@ -10,7 +10,6 @@ namespace AIA_Tranning.Contracts
         ILeaveAllocationRepository leaveAllocations { get; }
         ILeaveHistoryRepository leaveHistories { get; }
         ILeaveTypeRepository leaveTypes { get; }
-
-        int Complete();
+        bool save();
     }
 }
