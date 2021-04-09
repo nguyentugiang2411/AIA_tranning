@@ -1,4 +1,5 @@
-﻿using AIA_Tranning.Contracts;
+﻿using AIA_Tranning.Common;
+using AIA_Tranning.Contracts;
 using AIA_Tranning.Data;
 using AutoMapper;
 using Microsoft.AspNetCore.Http;
@@ -30,7 +31,7 @@ namespace AIA_Tranning.Controllers
         // GET: LeaveTypesController/Details/5
         public ActionResult Details(int id)
         {
-            var config = new MapperConfiguration(cfg => cfg.CreateMap<List<LeaveType>, List<LeaveType>>());
+            var config = new MapperConfiguration(cfg => cfg.CreateMap<LeaveType, LeaveType>());
             var mapper = config.CreateMapper();
             LeaveType leaveType = _unitOfWork.leaveTypes.findById(id);
             return View(mapper.Map<LeaveType, LeaveType>(leaveType));
@@ -53,7 +54,7 @@ namespace AIA_Tranning.Controllers
                     return View(collection);
                 }
 
-                var config = new MapperConfiguration(cfg => cfg.CreateMap<List<LeaveType>, List<LeaveType>>());
+                var config = new MapperConfiguration(cfg => cfg.CreateMap<LeaveType, LeaveType>());
                 var mapper = config.CreateMapper();
                 LeaveType leaveType = mapper.Map<LeaveType>(collection);
                 leaveType.DateCreated = DateTime.Now;
@@ -61,7 +62,7 @@ namespace AIA_Tranning.Controllers
                 bool isSuccess = _unitOfWork.leaveTypes.create(leaveType);
 
                 if (!isSuccess) {
-                    ModelState.AddModelError("Error", "Error");
+                    ModelState.AddModelError(AIAConstant.ERROR, AIAMessage.ERROR);
                     return View(collection);
                 }
                 return RedirectToAction(nameof(Index));
@@ -75,7 +76,7 @@ namespace AIA_Tranning.Controllers
         // GET: LeaveTypesController/Edit/5
         public ActionResult Edit(int id)
         {
-            var config = new MapperConfiguration(cfg => cfg.CreateMap<List<LeaveType>, List<LeaveType>>());
+            var config = new MapperConfiguration(cfg => cfg.CreateMap<LeaveType, LeaveType>());
             var mapper = config.CreateMapper();
             LeaveType leaveType = _unitOfWork.leaveTypes.findById(id);
             return View(mapper.Map<LeaveType, LeaveType>(leaveType));
@@ -90,18 +91,18 @@ namespace AIA_Tranning.Controllers
             {
                 bool isExist = _unitOfWork.leaveTypes.isExist(id);
                 if (!isExist) {
-                    ModelState.AddModelError("Error", "Not Exist");
+                    ModelState.AddModelError(AIAConstant.ERROR, AIAMessage.NOT_EXIST);
                     return View(collection);
                 }
 
-                var config = new MapperConfiguration(cfg => cfg.CreateMap<List<LeaveType>, List<LeaveType>>());
+                var config = new MapperConfiguration(cfg => cfg.CreateMap<LeaveType, LeaveType>());
                 var mapper = config.CreateMapper();
                 LeaveType leaveType = mapper.Map<LeaveType>(collection);
                 bool isSuccess = _unitOfWork.leaveTypes.update(leaveType);
 
                 if (!isSuccess) {
                     // Show error and rollback
-                    ModelState.AddModelError("Error", "Error");
+                    ModelState.AddModelError(AIAConstant.ERROR, AIAMessage.ERROR);
                     return View(collection);
                 }
 
@@ -122,10 +123,25 @@ namespace AIA_Tranning.Controllers
         // POST: LeaveTypesController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        public ActionResult Delete(int id, LeaveType collection)
         {
             try
             {
+                bool isExist = _unitOfWork.leaveTypes.isExist(id);
+                if (!isExist) {
+                    ModelState.AddModelError(AIAConstant.ERROR, AIAMessage.NOT_EXIST);
+                    return View(collection);
+                }
+
+                var config = new MapperConfiguration(cfg => cfg.CreateMap<LeaveType, LeaveType>());
+                var mapper = config.CreateMapper();
+                LeaveType leaveType = mapper.Map<LeaveType>(collection);
+                bool isSuccess = _unitOfWork.leaveTypes.delete(leaveType);
+                if (!isSuccess) {
+                    ModelState.AddModelError(AIAConstant.ERROR, AIAMessage.ERROR);
+                    return View(collection);
+                }
+
                 return RedirectToAction(nameof(Index));
             }
             catch
