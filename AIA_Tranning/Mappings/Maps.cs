@@ -10,12 +10,13 @@ namespace AIA_Tranning.Mappings
 {
     public class Maps : Profile
     {
-        MapperConfiguration config = new MapperConfiguration(cfg => {
-            cfg.CreateMap<LeaveType, LeaveTypeVM>().ReverseMap();
-            cfg.CreateMap<LeaveHistory, LeaveRequestVM>().ReverseMap();
-            cfg.CreateMap<LeaveAllocation, LeaveAllocationVM>().ReverseMap();
-            cfg.CreateMap<LeaveAllocation, EditLeaveAllocationVM>().ReverseMap();
-            cfg.CreateMap<Employee, EmployeeVM>().ReverseMap();
-        });
+        public Maps() { 
+            CreateMap<List<LeaveType>, List<LeaveTypeVM>>().ReverseMap();
+            CreateMap<LeaveType, LeaveTypeVM>().ReverseMap();
+            CreateMap<LeaveHistory, LeaveRequestVM>().ReverseMap();
+            CreateMap<LeaveAllocation, LeaveAllocationVM>().ReverseMap();
+            CreateMap<LeaveAllocation, EditLeaveAllocationVM>().ReverseMap();
+            CreateMap<Employee, EmployeeVM>().ReverseMap();
+        }
     }
 }

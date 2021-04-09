@@ -2,6 +2,7 @@ using AIA_Tranning.Contracts;
 using AIA_Tranning.Data;
 using AIA_Tranning.Mappings;
 using AIA_Tranning.Reponsitory;
+using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;

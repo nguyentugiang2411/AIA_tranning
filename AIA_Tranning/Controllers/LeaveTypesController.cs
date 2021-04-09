@@ -13,27 +13,25 @@ namespace AIA_Tranning.Controllers
     public class LeaveTypesController : Controller
     {
         private IUnitOfWork _unitOfWork;
+        private readonly IMapper _mapper;
 
         public LeaveTypesController(IMapper mapper, IUnitOfWork unitOfWork) {
+            _mapper = mapper;
             _unitOfWork = unitOfWork;
         }
 
         // GET: LeaveTypesController
         public ActionResult Index()
         {
-            var config = new MapperConfiguration(cfg => cfg.CreateMap<List<LeaveType>, List<LeaveType>>());
-            var mapper = config.CreateMapper();
             List<LeaveType> leaveTypes = _unitOfWork.leaveTypes.findAll().ToList();
-            return View(mapper.Map<List<LeaveType>, List<LeaveType>>(leaveTypes));
+            return View(_mapper.Map<List<LeaveType>, List<LeaveType>>(leaveTypes));
         }
 
         // GET: LeaveTypesController/Details/5
         public ActionResult Details(int id)
         {
-            var config = new MapperConfiguration(cfg => cfg.CreateMap<List<LeaveType>, List<LeaveType>>());
-            var mapper = config.CreateMapper();
             LeaveType leaveType = _unitOfWork.leaveTypes.findById(id);
-            return View(mapper.Map<LeaveType, LeaveType>(leaveType));
+            return View(_mapper.Map<LeaveType, LeaveType>(leaveType));
         }
 
         // GET: LeaveTypesController/Create
@@ -53,9 +51,7 @@ namespace AIA_Tranning.Controllers
                     return View(collection);
                 }
 
-                var config = new MapperConfiguration(cfg => cfg.CreateMap<List<LeaveType>, List<LeaveType>>());
-                var mapper = config.CreateMapper();
-                LeaveType leaveType = mapper.Map<LeaveType>(collection);
+                LeaveType leaveType = _mapper.Map<LeaveType>(collection);
                 leaveType.DateCreated = DateTime.Now;
 
                 bool isSuccess = _unitOfWork.leaveTypes.create(leaveType);
@@ -75,10 +71,8 @@ namespace AIA_Tranning.Controllers
         // GET: LeaveTypesController/Edit/5
         public ActionResult Edit(int id)
         {
-            var config = new MapperConfiguration(cfg => cfg.CreateMap<List<LeaveType>, List<LeaveType>>());
-            var mapper = config.CreateMapper();
             LeaveType leaveType = _unitOfWork.leaveTypes.findById(id);
-            return View(mapper.Map<LeaveType, LeaveType>(leaveType));
+            return View(_mapper.Map<LeaveType, LeaveType>(leaveType));
         }
 
         // POST: LeaveTypesController/Edit/5
@@ -94,9 +88,7 @@ namespace AIA_Tranning.Controllers
                     return View(collection);
                 }
 
-                var config = new MapperConfiguration(cfg => cfg.CreateMap<List<LeaveType>, List<LeaveType>>());
-                var mapper = config.CreateMapper();
-                LeaveType leaveType = mapper.Map<LeaveType>(collection);
+                LeaveType leaveType = _mapper.Map<LeaveType>(collection);
                 bool isSuccess = _unitOfWork.leaveTypes.update(leaveType);
 
                 if (!isSuccess) {
