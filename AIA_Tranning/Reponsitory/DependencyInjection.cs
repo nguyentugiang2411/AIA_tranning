@@ -1,4 +1,6 @@
 ﻿using AIA_Tranning.Contracts;
+using AIA_Tranning.IService;
+using AIA_Tranning.Service;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace AIA_Tranning.Reponsitory
@@ -6,6 +8,7 @@ namespace AIA_Tranning.Reponsitory
     public static class DependencyInjection
     {
         public static IServiceCollection AddRepository(this IServiceCollection services) {
+            services.AddScoped<ILeaveTypesService, LeaveTypesService>();
             services.AddTransient<IUnitOfWork, UnitOfWork>();
             services.AddTransient<ILeaveTypeRepository, LeaveTypeRepository>();
             services.AddTransient<ILeaveHistoryRepository, LeaveHistoryRepository>();

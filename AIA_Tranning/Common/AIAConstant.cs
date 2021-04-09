@@ -1,13 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace AIA_Tranning.Common
+﻿namespace AIA_Tranning.Common
 {
-    public class AIAConstant
+    public static class AIAConstant
     {
-        public static string ERROR = "Error";
+        public const string ERROR = "Error";
+    }
+
+    public static class UserRoles
+    {
+        public const string Admin = "Admin";
+        public const string User = "User";
     }
 
     public enum ResponseStatus

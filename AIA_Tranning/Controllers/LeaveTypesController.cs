@@ -1,6 +1,7 @@
 ﻿using AIA_Tranning.Common;
 using AIA_Tranning.Contracts;
 using AIA_Tranning.Data;
+using AIA_Tranning.IService;
 using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -13,26 +14,24 @@ namespace AIA_Tranning.Controllers
 {
     public class LeaveTypesController : Controller
     {
-        private IUnitOfWork _unitOfWork;
-        private readonly IMapper _mapper;
+        private ILeaveTypesService _service;
 
-        public LeaveTypesController(IMapper mapper, IUnitOfWork unitOfWork) {
-            _mapper = mapper;
-            _unitOfWork = unitOfWork;
+        public LeaveTypesController(ILeaveTypesService service) {
+            _service = service;
         }
 
         // GET: LeaveTypesController
         public ActionResult Index()
         {
-            List<LeaveType> leaveTypes = _unitOfWork.leaveTypes.findAll().ToList();
-            return View(_mapper.Map<List<LeaveType>, List<LeaveType>>(leaveTypes));
+            List<LeaveType> leaveTypes = _service.getAll().ToList();
+            return View(leaveTypes);
         }
 
         // GET: LeaveTypesController/Details/5
         public ActionResult Details(int id)
         {
-            LeaveType leaveType = _unitOfWork.leaveTypes.findById(id);
-            return View(_mapper.Map<LeaveType, LeaveType>(leaveType));
+            LeaveType leaveType = _service.getById(id);
+            return View(leaveType);
         }
 
         // GET: LeaveTypesController/Create
@@ -52,10 +51,7 @@ namespace AIA_Tranning.Controllers
                     return View(collection);
                 }
 
-                LeaveType leaveType = _mapper.Map<LeaveType>(collection);
-                leaveType.DateCreated = DateTime.Now;
-
-                bool isSuccess = _unitOfWork.leaveTypes.create(leaveType);
+                bool isSuccess = _service.create(collection);
 
                 if (!isSuccess) {
                     ModelState.AddModelError(AIAConstant.ERROR, AIAMessage.ERROR);
@@ -63,7 +59,7 @@ namespace AIA_Tranning.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            catch(Exception e)
+            catch
             {
                 return View();
             }
@@ -72,8 +68,8 @@ namespace AIA_Tranning.Controllers
         // GET: LeaveTypesController/Edit/5
         public ActionResult Edit(int id)
         {
-            LeaveType leaveType = _unitOfWork.leaveTypes.findById(id);
-            return View(_mapper.Map<LeaveType, LeaveType>(leaveType));
+            LeaveType leaveType = _service.getById(id);
+            return View(leaveType);
         }
 
         // POST: LeaveTypesController/Edit/5
@@ -83,14 +79,13 @@ namespace AIA_Tranning.Controllers
         {
             try
             {
-                bool isExist = _unitOfWork.leaveTypes.isExist(id);
+                bool isExist = _service.isExist(id);
                 if (!isExist) {
                     ModelState.AddModelError(AIAConstant.ERROR, AIAMessage.NOT_EXIST);
                     return View(collection);
                 }
 
-                LeaveType leaveType = _mapper.Map<LeaveType>(collection);
-                bool isSuccess = _unitOfWork.leaveTypes.update(leaveType);
+                bool isSuccess = _service.update(collection);
 
                 if (!isSuccess) {
                     // Show error and rollback
@@ -119,16 +114,13 @@ namespace AIA_Tranning.Controllers
         {
             try
             {
-                bool isExist = _unitOfWork.leaveTypes.isExist(id);
+                bool isExist = _service.isExist(id);
                 if (!isExist) {
                     ModelState.AddModelError(AIAConstant.ERROR, AIAMessage.NOT_EXIST);
                     return View(collection);
                 }
 
-                var config = new MapperConfiguration(cfg => cfg.CreateMap<LeaveType, LeaveType>());
-                var mapper = config.CreateMapper();
-                LeaveType leaveType = mapper.Map<LeaveType>(collection);
-                bool isSuccess = _unitOfWork.leaveTypes.delete(leaveType);
+                bool isSuccess = _service.delete(collection);
                 if (!isSuccess) {
                     ModelState.AddModelError(AIAConstant.ERROR, AIAMessage.ERROR);
                     return View(collection);
