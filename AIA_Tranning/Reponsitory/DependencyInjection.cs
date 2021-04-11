@@ -1,6 +1,6 @@
 ﻿using AIA_Tranning.Contracts;
-using AIA_Tranning.IService;
 using AIA_Tranning.Service;
+using AIA_Tranning.Service.IService;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace AIA_Tranning.Reponsitory

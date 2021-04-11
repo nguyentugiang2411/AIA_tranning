@@ -1,11 +1,10 @@
 ﻿using AIA_Tranning.Contracts;
 using AIA_Tranning.Data;
-using AIA_Tranning.IService;
+using AIA_Tranning.Service.IService;
 using AutoMapper;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace AIA_Tranning.Service
 {

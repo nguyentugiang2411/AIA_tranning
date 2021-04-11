@@ -1,14 +1,9 @@
 ﻿using AIA_Tranning.Common;
-using AIA_Tranning.Contracts;
 using AIA_Tranning.Data;
-using AIA_Tranning.IService;
-using AutoMapper;
-using Microsoft.AspNetCore.Http;
+using AIA_Tranning.Service.IService;
 using Microsoft.AspNetCore.Mvc;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace AIA_Tranning.Controllers
 {

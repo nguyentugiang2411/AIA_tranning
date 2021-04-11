@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace AIA_Tranning.IService
+namespace AIA_Tranning.Service.IService
 {
     public interface IBaseService<T> where T : class
     {
