@@ -9,7 +9,7 @@ namespace AIA_Tranning.Controllers
 {
     public class LeaveTypesController : Controller
     {
-        private ILeaveTypesService _service;
+        private readonly ILeaveTypesService _service;
 
         public LeaveTypesController(ILeaveTypesService service) {
             _service = service;
@@ -25,6 +25,12 @@ namespace AIA_Tranning.Controllers
         // GET: LeaveTypesController/Details/5
         public ActionResult Details(int id)
         {
+            bool isExist = _service.isExist(id);
+            if (!isExist)
+            {
+                return NotFound();
+            }
+
             LeaveType leaveType = _service.getById(id);
             return View(leaveType);
         }
@@ -35,7 +41,7 @@ namespace AIA_Tranning.Controllers
             return View();
         }
 
-        // POST: LeaveTypesController/Create
+        // POST: LeaveTypesController/Create    
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create(LeaveType collection)
@@ -63,6 +69,11 @@ namespace AIA_Tranning.Controllers
         // GET: LeaveTypesController/Edit/5
         public ActionResult Edit(int id)
         {
+            bool isExist = _service.isExist(id);
+            if (!isExist) {
+                return NotFound();
+            }
+
             LeaveType leaveType = _service.getById(id);
             return View(leaveType);
         }
@@ -75,9 +86,9 @@ namespace AIA_Tranning.Controllers
             try
             {
                 bool isExist = _service.isExist(id);
-                if (!isExist) {
-                    ModelState.AddModelError(AIAConstant.ERROR, AIAMessage.NOT_EXIST);
-                    return View(collection);
+                if (!isExist)
+                {
+                    return NotFound();
                 }
 
                 bool isSuccess = _service.update(collection);
@@ -110,9 +121,9 @@ namespace AIA_Tranning.Controllers
             try
             {
                 bool isExist = _service.isExist(id);
-                if (!isExist) {
-                    ModelState.AddModelError(AIAConstant.ERROR, AIAMessage.NOT_EXIST);
-                    return View(collection);
+                if (!isExist)
+                {
+                    return NotFound();
                 }
 
                 bool isSuccess = _service.delete(collection);
