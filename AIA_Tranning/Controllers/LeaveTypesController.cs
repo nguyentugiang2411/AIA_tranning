@@ -1,6 +1,7 @@
 ﻿using AIA_Tranning.Common;
 using AIA_Tranning.Data;
 using AIA_Tranning.Service.IService;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,6 +16,7 @@ namespace AIA_Tranning.Controllers
             _service = service;
         }
 
+        [Authorize]
         // GET: LeaveTypesController
         public ActionResult Index()
         {

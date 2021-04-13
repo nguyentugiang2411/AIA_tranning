@@ -96,6 +96,7 @@ namespace AIA_Tranning.Areas.Identity.Pages.Account
                 {
                     _logger.LogInformation("User created a new account with password.");
 
+                    _userManager.AddToRoleAsync(user, "Employee").Wait();
                     await _signInManager.SignInAsync(user, isPersistent: false);
                     return LocalRedirect(returnUrl);
                 }
