@@ -29,7 +29,7 @@ namespace AIA_Tranning
                     Configuration.GetConnectionString("DefaultConnection")));
             services.AddRepository();
             services.AddAutoMapper(typeof(Maps));
-            services.AddDefaultIdentity<Employee>(options => options.SignIn.RequireConfirmedAccount = true)
+            services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
             services.AddControllersWithViews();
             services.AddRazorPages();
