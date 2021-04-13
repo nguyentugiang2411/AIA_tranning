@@ -1,4 +1,5 @@
-﻿using AIA_Tranning.Data;
+﻿using AIA_Tranning.Common;
+using AIA_Tranning.Data;
 using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
@@ -19,7 +20,7 @@ namespace AIA_Tranning
 
         private static void SeedUsers(UserManager<IdentityUser> userManager)
         {
-            var users = userManager.GetUsersInRoleAsync("Employee").Result;
+            var users = userManager.GetUsersInRoleAsync(UserRoles.User).Result;
 
             if (userManager.FindByNameAsync("admin@localhost.com").Result == null)
             {
@@ -31,27 +32,27 @@ namespace AIA_Tranning
                 var result = userManager.CreateAsync(user, "P@ssword1").Result;
                 if (result.Succeeded)
                 {
-                    userManager.AddToRoleAsync(user, "Administrator").Wait();
+                    userManager.AddToRoleAsync(user, UserRoles.Admin).Wait();
                 }
             }
         }
 
         private static void SeedRoles(RoleManager<IdentityRole> roleManager)
         {
-            if (!roleManager.RoleExistsAsync("Administrator").Result)
+            if (!roleManager.RoleExistsAsync(UserRoles.Admin).Result)
             {
                 var role = new IdentityRole
                 {
-                    Name = "Administrator"
+                    Name = UserRoles.Admin
                 };
                 var result = roleManager.CreateAsync(role).Result;
             }
 
-            if (!roleManager.RoleExistsAsync("Employee").Result)
+            if (!roleManager.RoleExistsAsync(UserRoles.User).Result)
             {
                 var role = new IdentityRole
                 {
-                    Name = "Employee"
+                    Name = UserRoles.User
                 };
                 var result = roleManager.CreateAsync(role).Result;
             }

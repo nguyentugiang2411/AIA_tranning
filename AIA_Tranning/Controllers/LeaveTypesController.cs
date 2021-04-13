@@ -8,6 +8,7 @@ using System.Linq;
 
 namespace AIA_Tranning.Controllers
 {
+    [Authorize(Roles = UserRoles.Admin)]
     public class LeaveTypesController : Controller
     {
         private readonly ILeaveTypesService _service;

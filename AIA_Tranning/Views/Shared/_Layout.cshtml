@@ -1,4 +1,5 @@
 ﻿@using Microsoft.AspNetCore.Identity
+@using AIA_Tranning.Common
 @inject SignInManager<IdentityUser> SignInManager
 @inject UserManager<IdentityUser> UserManager
 <!DOCTYPE html>
@@ -27,7 +28,7 @@
                         </li>
                         @if (SignInManager.IsSignedIn(User))
                         {
-                            @if (User.IsInRole("Administrator"))
+                            @if (User.IsInRole(UserRoles.Admin))
                             {
                                 <li class="nav-item dropdown">
                                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
